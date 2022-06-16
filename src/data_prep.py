@@ -8,10 +8,11 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import make_column_selector as selector
 
 
-null_columns_str = ['MasVnrType', 'BsmtQual', 'BsmtCond', 
-                    'BsmtExposure', 'BsmtFinType1', 'BsmtFinType2', 
-                    'Electrical', 'GarageType', 'GarageFinish', 
-                    'GarageQual', 'GarageCond']
+ordinal_columns_str = ['Utilities', 'OverallQual', 'OverallCond', 'ExterQual', 'ExterCond', 
+                       'BsmtQual', 'BsmtCond', 'BsmtExposure', 'BsmtFinType1', 'BsmtFinType2', 
+                       'HeatingQC', 'CentralAir', 'Electrical', 'KitchenQual', 'Functional', 
+                       'FireplaceQu', 'GarageType', 'GarageFinish', 'GarageQual', 'GarageCond',
+                       'PoolQC', 'Fence', 'MiscFeature']
 
 def data_extract(csv_path):
     df = pd.read_csv(csv_path)
@@ -21,7 +22,7 @@ def data_extract(csv_path):
     #df = df.drop(1379) # df[1379]['Electrical'] is the only empty string in the column
     
     X = df.drop(['Id'], axis=1)
-    X = X.drop(null_columns_str, axis=1)
+    X = X.drop(ordinal_columns_str, axis=1)
     y = None
     
     if csv_path == '../HousePrices/src/train.csv':
