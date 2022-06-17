@@ -1,27 +1,22 @@
-from data_prep import data_extract, data_prep
+from data_prep import data_extract, data_preprocessor
 
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
+from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.model_selection import train_test_split
+
+from of_transformer import ordinal_transformer
 
 import csv
 
-
-'''FITTING THE MODEL WITH TRAIN.CSV DATA (RF, ADABOOST, GDBOOST, XGBOOST) AND RETURNING SCORE'''
-def rf(X_train, X_test, y_train, y_test):
-    reg = RandomForestRegressor(n_estimators = 100, max_leaf_nodes=100)
-    reg.fit(X_train, y_train)
-    return reg
-
-def gdboost(X_train, X_test, y_train, y_test):
-    reg = GradientBoostingRegressor(n_estimators = 200, max_leaf_nodes=20, learning_rate=0.2)
+'''FITTING THE MODEL WITH TRAIN.CSV DATA AND RETURNING SCORE'''
+def gdboost_fitting(X_train, y_train):
+    reg = GradientBoostingRegressor(n_estimators = 200, max_leaf_nodes=100, learning_rate=0.15)
     reg.fit(X_train, y_train)
     return reg
 
 '''PREDICTING ON TEST.CSV DATA'''
-def model_application(X_train, y_train, preprocessor, reg):
-    reg.fit(X_train, y_train)
-
+def gdboost_testing(preprocessor, reg):
     X_test, y_test = data_extract('../HousePrices/src/test.csv')
+    X_test = ordinal_transformer(X_test)
     X_test = preprocessor.transform(X_test)
 
     y_test = reg.predict(X_test)
@@ -42,20 +37,14 @@ def fill_csv(y_test):
 
 def main():
     '''TRAIN-TEST SPLIT FOR TRAIN.CSV'''
-    X, preprocessor, y = data_prep('../HousePrices/src/train.csv')
-    #X = ordinal_tranformer(X)
-    X = preprocessor.fit_transform(X)
+    X_train, y_train = data_extract('../HousePrices/src/train.csv')
+    X_train = ordinal_transformer(X_train)
+    preprocessor = data_preprocessor()
+    X_train = preprocessor.fit_transform(X_train)
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-    '''CREATING RF AND GDBOOST REGRESSORS AND COMBINING THEM'''
-    rf_reg = rf(X_train, X_test, y_train, y_test) 
-    gdboost_reg = gdboost(X_train, X_test, y_train, y_test)
-
-    y_test_rf = model_application(X, y, preprocessor, rf_reg)
-    y_test_gdboost = model_application(X, y, preprocessor, gdboost_reg)
-
-    y_test = (y_test_rf + y_test_gdboost) / 2
+    '''CREATING GDBOOST REGRESSOR AND PREDICTING'''
+    gdboost_reg = gdboost_fitting(X_train, y_train)
+    y_test = gdboost_testing(preprocessor, gdboost_reg)
     fill_csv(y_test)
 
 main()
