@@ -1,15 +1,14 @@
 from data_prep import data_extract, data_preprocessor
+from of_transformer import ordinal_transformer
 
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.model_selection import train_test_split
-
-from of_transformer import ordinal_transformer
 
 import csv
 
 '''FITTING THE MODEL WITH TRAIN.CSV DATA AND RETURNING SCORE'''
 def gdboost_fitting(X_train, y_train):
-    reg = GradientBoostingRegressor(n_estimators = 200, max_leaf_nodes=100, learning_rate=0.15)
+    reg = GradientBoostingRegressor(n_estimators = 500, max_depth=3, learning_rate=0.1)
     reg.fit(X_train, y_train)
     return reg
 
@@ -36,7 +35,7 @@ def fill_csv(y_test):
         writer.writerows(data)
 
 def main():
-    '''TRAIN-TEST SPLIT FOR TRAIN.CSV'''
+    '''PREPROCESSING AND TRAIN-TEST SPLIT FOR TRAIN.CSV'''
     X_train, y_train = data_extract('../HousePrices/src/train.csv')
     X_train = ordinal_transformer(X_train)
     preprocessor = data_preprocessor()
@@ -48,7 +47,3 @@ def main():
     fill_csv(y_test)
 
 main()
-
-# Next time continue hypertuning the RF regressor, visualize the error tendency based on the hyperparameters
-# Also study gradient boosting and try to apply it too
-# Then compare the results from both ensemble models

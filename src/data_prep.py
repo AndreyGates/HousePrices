@@ -1,12 +1,29 @@
+from tkinter import N
 import pandas as pd
 import numpy as np
 
 from sklearn.compose import ColumnTransformer
+from sklearn.decomposition import PCA
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import make_column_selector as selector
 
+'''REMOVING STRING COLUMNS'''
+def no_string_cols(df):
+    cols_to_remove = []
+
+    for col in df.columns:
+        try:
+            _ = df[col].astype(float)
+        except ValueError:
+            print('Couldn\'t convert %s to float' % col)
+            cols_to_remove.append(col)
+            pass
+
+    # keep only the columns in df that do not contain string
+    df = df[[col for col in df.columns if col not in cols_to_remove]]
+    return df
 
 '''DATA EXTRACTION'''
 def data_extract(csv_path):
@@ -30,7 +47,8 @@ def data_extract(csv_path):
 def data_preprocessor():
     numeric_transformer = Pipeline(steps=[
         ('imputer', SimpleImputer(strategy='median')),
-        ('scaler', StandardScaler())
+        ('scaler', StandardScaler()),
+        ("pca", PCA(n_components=6))
     ])
 
     '''HANDLING CATEGORICAL DATA'''
@@ -46,3 +64,4 @@ def data_preprocessor():
     ])
 
     return preprocessor
+    
