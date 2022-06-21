@@ -48,7 +48,7 @@ def data_preprocessor():
     numeric_transformer = Pipeline(steps=[
         ('imputer', SimpleImputer(strategy='median')),
         ('scaler', StandardScaler()),
-        ("pca", PCA(n_components=6))
+        #("pca", PCA(n_components=6))
     ])
 
     '''HANDLING CATEGORICAL DATA'''

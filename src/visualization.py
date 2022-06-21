@@ -1,17 +1,19 @@
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import GridSearchCV, train_test_split
+from sklearn.model_selection import RandomizedSearchCV, train_test_split
 
 from data_prep import *
 from of_transformer import ordinal_transformer
 
 from matplotlib import pyplot as plt
+from scipy.stats import loguniform
 
 def fitting(X_train, y_train, X_test, y_test):
     params = {
-        "n_estimators": 500,
-        "max_depth": 3,
-        "learning_rate": 0.1
+        "n_estimators": 200,
+        "max_leaf_nodes": 20,
+        "learning_rate": 0.11,
+        "random_state" : 69
     }
 
     reg = GradientBoostingRegressor(**params)
@@ -46,14 +48,18 @@ def training_deviance(reg, params, X_test, y_test):
     plt.show()
 
 def hypertuning(X_train, y_train):
-    reg = GradientBoostingRegressor()
-    parameters = {
-        "n_estimators":[5,50,250,500],
-        "max_depth":[1,3,5,7,9],
-        "learning_rate":[0.01,0.1,0.5]
-    }
+    param_distributions = {
+    "n_estimators": [1, 2, 5, 10, 20, 50, 100, 200, 500],
+    "max_leaf_nodes": [2, 5, 10, 20, 50, 100],
+    "learning_rate": loguniform(0.01, 1),
+}
 
-    cv = GridSearchCV(reg, parameters, cv=5)
+    cv = RandomizedSearchCV(GradientBoostingRegressor(), 
+                            param_distributions=param_distributions,
+                            scoring="neg_mean_absolute_error", 
+                            n_iter=20, 
+                            random_state=0, 
+                            n_jobs=2)
     cv.fit(X_train, y_train)
     return cv
 
@@ -72,14 +78,12 @@ def main_visual():
     X = ordinal_transformer(df)
     preprocessor = data_preprocessor()
     X = preprocessor.fit_transform(X)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.1, random_state=69)
 
-    print(preprocessor.named_transformers_['num'][2].explained_variance_ratio_)
+    #print(preprocessor.named_transformers_['num'][2].explained_variance_ratio_)
+    display(hypertuning(X, y)) # using gridsearchCV to extract the best hyperparameters for the model
 
-    #display(hypertuning(X, y)) # using gridsearchCV to extract the best hyperparameters for the model
-    # Best parameters are: {'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 500} for X, y (test.csv)
-
-    reg, params = fitting(X_train, y_train, X_test, y_test)
-    training_deviance(reg, params, X_test, y_test)
+    #reg, params = fitting(X_train, y_train, X_test, y_test)
+    #training_deviance(reg, params, X_test, y_test)
 
 main_visual()

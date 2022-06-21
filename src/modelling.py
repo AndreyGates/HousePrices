@@ -8,7 +8,7 @@ import csv
 
 '''FITTING THE MODEL WITH TRAIN.CSV DATA AND RETURNING SCORE'''
 def gdboost_fitting(X_train, y_train):
-    reg = GradientBoostingRegressor(n_estimators = 500, max_depth=3, learning_rate=0.1)
+    reg = GradientBoostingRegressor(n_estimators = 500, max_leaf_nodes=32, learning_rate=0.1, random_state=69) #0.13028
     reg.fit(X_train, y_train)
     return reg
 
