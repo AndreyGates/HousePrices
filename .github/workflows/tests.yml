@@ -26,8 +26,3 @@ jobs:
       run: pip install tox
     - name: Test with tox
       run: tox -e py
-Footer
-© 2022 GitHub, Inc.
-Footer navigation
-Terms
-Privacy
