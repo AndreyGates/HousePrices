@@ -1,16 +1,14 @@
-from tkinter import N
 import pandas as pd
-import numpy as np
-
 from sklearn.compose import ColumnTransformer
-from sklearn.decomposition import PCA
+# from sklearn.decomposition import PCA
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import make_column_selector as selector
 
-'''REMOVING STRING COLUMNS'''
+
 def no_string_cols(df):
+    '''REMOVING STRING COLUMNS'''
     cols_to_remove = []
 
     for col in df.columns:
@@ -25,30 +23,32 @@ def no_string_cols(df):
     df = df[[col for col in df.columns if col not in cols_to_remove]]
     return df
 
-'''DATA EXTRACTION'''
+
 def data_extract(csv_path):
+    '''DATA EXTRACTION'''
     df = pd.read_csv(csv_path)
 
-    #df = df.dropna(axis=1, thresh=len(df.values)/1.5) # dropping columns where 1/3 is Nan or more)
-    #df = df.fillna(df.mean()) # imputing missing numerical values with feature means
-    #df = df.drop(1379) # df[1379]['Electrical'] is the only empty string in the column
-    
+    # df = df.dropna(axis=1, thresh=len(df.values)/1.5) # dropping columns where 1/3 is Nan or more)
+    # df = df.fillna(df.mean()) # imputing missing numerical values with feature means
+    # df = df.drop(1379) # df[1379]['Electrical'] is the only empty string in the column
+
     X = df.drop(['Id'], axis=1)
-    #X = X.drop(ordinal_columns_str, axis=1)
+    # X = X.drop(ordinal_columns_str, axis=1)
     y = None
-    
-    if csv_path == '../HousePrices/src/train.csv':
+
+    if csv_path == '../HousePrices/tests/train.csv':
         X = X.drop(['SalePrice'], axis=1)
         y = df['SalePrice']
 
     return X, y
 
-'''NUMERIC AND CATEGORICAL VALUES HANDLING (EXCEPT ORDINAL - DONE SEPARATELY)'''
+
 def data_preprocessor():
+    '''NUMERIC AND CATEGORICAL VALUES HANDLING (EXCEPT ORDINAL - DONE SEPARATELY)'''
     numeric_transformer = Pipeline(steps=[
         ('imputer', SimpleImputer(strategy='median')),
         ('scaler', StandardScaler()),
-        #("pca", PCA(n_components=6))
+        # ("pca", PCA(n_components=6))
     ])
 
     '''HANDLING CATEGORICAL DATA'''
@@ -64,4 +64,3 @@ def data_preprocessor():
     ])
 
     return preprocessor
-    
