@@ -38,7 +38,7 @@ Evaluating the Gradient Boosting algorithm is available now.
 
 * Gradient Boosting:
 
-![Gradient Boosting](https://github.com/AndreyGates/HousePrices/blob/main/tests/test_pngs/gdboosing.png)
+![Gradient Boosting](https://github.com/AndreyGates/HousePrices/blob/main/tests/test_pngs/gdboosting.png)
 
 ## Authors
 
