@@ -2,7 +2,7 @@
 
 ## Description
 
-The project is based on predicting whether a given banknote is authentic given a number of measures taken from a photograph.
+The project is based on predicting a house's price according to the Ames Housing Dataset using advanced regression techniques.
 
 Moreover, the repository includes testing automation which enables the program to be tested manually by users or automatically via GitHub Actions.
 
@@ -15,34 +15,30 @@ Moreover, the repository includes testing automation which enables the program t
 ### Installing
 
 ```
-$ git clone https://github.com/AndreyGates/BanknoteAuthentication
+$ git clone https://github.com/AndreyGates/HousePrices
 ```
 
 ## Usage
 
-Address test_authentication.py in "tests" folder to run the test functions contained within the file.\
-Evaluating the random forest and visualizing it are available now.
+Address test_regressor.py in "tests" folder to run the test functions contained within the file.\
+Evaluating the Gradient Boosting algorithm is available now.
 
 ### Dataset
 
-[Here](https://github.com/AndreyGates/BanknoteAuthentication/blob/main/src/authentication/dataset_info.txt) you can find information about the dataset used for this application.
+[Here](https://github.com/AndreyGates/HousePrices/blob/main/src/houseprices/data_description.txt) you can find information about the dataset used for this application.
 
 ### Screenshots
-* Banknote sample:
+* House:
 
-![Banknote sample](https://github.com/AndreyGates/BanknoteAuthentication/blob/main/tests/banknote_sample.png) 
+![House](https://github.com/AndreyGates/HousePrices/blob/main/tests/test_pngs/house.png) 
 
-* Wavelet transform:
+* Histogram of sale prices:
 
-![Wavelet transform](https://github.com/AndreyGates/BanknoteAuthentication/blob/main/tests/wavelet_transform.png)
+![Histogram of sale prices](https://github.com/AndreyGates/HousePrices/blob/main/tests/test_pngs/prices.png)
 
-* Model accuracy:
+* Gradient Boosting:
 
-![Model accuracy](https://github.com/AndreyGates/BanknoteAuthentication/blob/main/tests/model_accuracy.png)
-
-* Random forest:
-
-![Random forest](https://github.com/AndreyGates/BanknoteAuthentication/blob/main/tests/random_forest.png)
+![Gradient Boosting](https://github.com/AndreyGates/HousePrices/blob/main/tests/test_pngs/gdboosing.png)
 
 ## Authors
 
