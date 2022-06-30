@@ -32,13 +32,13 @@ Evaluating the Gradient Boosting algorithm is available now.
 
 ![House](https://github.com/AndreyGates/HousePrices/blob/main/tests/test_pngs/house.png) 
 
-* Histogram of sale prices:
+* Sale Prices:
 
 ![Histogram of sale prices](https://github.com/AndreyGates/HousePrices/blob/main/tests/test_pngs/prices.png)
 
 * Gradient Boosting:
 
-![Gradient Boosting](https://github.com/AndreyGates/HousePrices/blob/main/tests/test_pngs/gdboosting.png)
+![Model](https://github.com/AndreyGates/HousePrices/blob/main/tests/test_pngs/gdboosting.png)
 
 ## Authors
 
