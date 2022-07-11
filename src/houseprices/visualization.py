@@ -32,7 +32,7 @@ def l_curve(X_train, y_train, model):
 
 
 def hypertuning(X_train, y_train, model):
-    param_distributions = {"n_estimators": [10, 20, 50, 100, 200, 500],
+    param_distributions = {"n_estimators": [10, 20, 50, 100, 200, 500, 1000],
                            "max_leaf_nodes": [10, 20, 50, 100],
                            "learning_rate": loguniform(0.01, 1)}
 
